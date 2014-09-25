@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdio>
 #include <cstdlib>
+#include <SFML/Audio.hpp>
 
 #define DELAYTIME 0x7ffffff
 
@@ -58,7 +59,13 @@ int main()
 
   // Pre-game:    
   cbreak();
-  //  raw();
+  
+  sf::Music music;
+  if(!music.openFromFile("thydungeonman_theme.ogg"))
+    printw("Failed to load music.\n");
+  else
+    music.play();
+
   keypad(stdscr, TRUE);
   xpos = COLS/2-7;
   ypos = LINES/2-10;
