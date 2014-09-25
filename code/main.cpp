@@ -61,7 +61,7 @@ int main()
   cbreak();
   
   sf::Music music;
-  if(!music.openFromFile("thydungeonman_theme.ogg"))
+  if(!music.openFromFile("../thydungeonman_theme.ogg"))
     printw("Failed to load music.\n");
   else
     music.play();
