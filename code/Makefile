@@ -1,2 +1,2 @@
 all:
-	g++ main.cpp -o dungeonGame -lncurses
+	g++ main.cpp -o ../dungeonGame -lncurses
