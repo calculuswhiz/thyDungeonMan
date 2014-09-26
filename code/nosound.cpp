@@ -4,7 +4,6 @@
 #include <string>
 #include <cstdio>
 #include <cstdlib>
-//#include <SFML/Audio.hpp>
 
 #define DELAYTIME 0x7ffffff
 
@@ -53,7 +52,6 @@ int main()
     start_color();
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_RED, COLOR_BLACK);
-    attron(COLOR_PAIR(1));
   }
 
   curs_set(0);
@@ -61,17 +59,12 @@ int main()
   // Pre-game:    
   cbreak();
   
-  /*  sf::Music music;
-  if(!music.openFromFile("../thydungeonman_theme.ogg"))
-    printw("Failed to load music.\n");
-  else
-  music.play();*/
   if(has_colors() == TRUE){
     attron(COLOR_PAIR(2));
-    printw("No audio version.");
+    mvprintw(LINES/2-11, COLS/2-8, "No audio version.");
     attron(COLOR_PAIR(1));
   }
-  
+
   keypad(stdscr, TRUE);
   xpos = COLS/2-7;
   ypos = LINES/2-10;
@@ -105,10 +98,10 @@ int main()
     else if (ch == '\n')
       break;
   }
-  echo();
 
   // GameStart:
  gamestart:
+  echo();
   clear();
   score = 0;
   yeScroll = 0;
@@ -132,9 +125,19 @@ int main()
 
   }
 
-  do{
+  noecho();
+  
+  getyx(stdscr,ypos,xpos);
+  ypos-=2;
+
+  while( (ch!='n' && ch != 'N' && ch != 'Y' && ch != 'y') || ch == 'a'){
     ch = getch();
-  } while(ch!='n' && ch != 'N' && ch != 'Y' && ch != 'y');
+    if( ch == 'a' ){
+      score-=100;
+      mvprintw(ypos, 0, "Your score was: %d.", score);
+      refresh();
+    }
+  }
 
   if( ch == 'y' || ch == 'Y')
     goto gamestart;
@@ -201,7 +204,7 @@ void process(char * buf)
   }
   else if (!cmd.compare("DIE")){
     score -= 100;
-    mvprintw(0,0,"That wasn't very smart. Your score was: %d.\n\nPlay again? [Y/N]", score);
+    mvprintw(0,0,"That wasn't very smart.\nYour score was: %d.\n\nPlay again? [Y/N]", score);
     dead = 1;
   }
   else if (!cmd.compare("SMELL") || !cmd.compare("SNIFF")){
@@ -242,7 +245,7 @@ void process(char * buf)
 void give(string args0, string args1){
   if(!args0.compare("TRINKET") && (args1.empty() || !args1.compare("TO DENNIS")) && trinket > 0 && location == DENNIS){
     clear();
-    mvprintw(0,0,"A novel idea! You givst the TRINKET to Dennis and he happily agrees to tell you what parapets are. With this new knowledge, ye escapes from yon dungeon in order to search for new dungeons and to remain...\n\nTHY DUNGEONMAN!!\nYou hath won!\nCongraturation!! Your score was: %d\n\n", score);
+    mvprintw(0,0,"A novel idea! You givst the TRINKET to Dennis and he happily agrees to tell you what parapets are. With this new knowledge, ye escapes from yon dungeon in order to search for new dungeons and to remain...\n\nTHY DUNGEONMAN!!\nYou hath won!\nCongraturation!!\nYour score was: %d\n\n", score);
     delay();
     printw("Play again? [Y/N]");
     dead = 1;
@@ -274,7 +277,7 @@ void get(string args0, string args1){
     default:
       clear();
       score -= 1000;
-      mvprintw(0,0,"Okay, okay. You unbolt yon FLASK and hold it aloft. A great shaking begins. The dungeon ceiling collapses down on you, crushing you in twain. Apparently, this was a load-bearing FLASK.\nYour score was: %d\n\nPlay again? [Y/N]\n", score);
+      mvprintw(0,0,"Okay, okay. You unbolt yon FLASK and hold it aloft. A great shaking begins. The dungeon ceiling collapses down on you, crushing you in twain. Apparently, this was a load-bearing FLASK.\nYour score was: %d\n\nPlay again? [Y/N]", score);
       dead = 1;
       break;
     }
@@ -356,6 +359,8 @@ void go(string args0, string args1){
       mvprintw(0,0,"You head south to an enbankment. Or maybe a chasm. You can't decide which. Anyway, ye spies a TRINKET. Obvious exits are NORTH.\n");
       help();
     }
+    else
+      mvprintw(0,0,"Thou cannotst go there. Who do you think thou art? A magistrate?!\n");
   }
   else if(!args0.compare("DENNIS") && location == MAIN_ROOM){
     location = DENNIS;
