@@ -11,4 +11,4 @@ This is a command-line game.
   
   -```make nosound``` if you just have ncurses.
 
-If you're on Linux, you probably already have ncurses, but you most likely need to install csfml though.
+If you're on Linux, you probably already have ncurses, but you most likely need to install csfml.
