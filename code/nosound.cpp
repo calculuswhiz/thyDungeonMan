@@ -132,7 +132,7 @@ int main()
 
   while( (ch!='n' && ch != 'N' && ch != 'Y' && ch != 'y') || ch == 'a'){
     ch = getch();
-    if( ch == 'a' ){
+    if( ch == KEY_DOWN ){
       score-=100;
       mvprintw(ypos, 0, "Your score was: %d.", score);
       refresh();
