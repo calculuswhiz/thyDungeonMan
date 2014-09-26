@@ -1,4 +1,4 @@
-thyDungeonMan
+Thy Dungeonman! Thy Hunger!
 =============
 
 YOU ARE THY DUNGEONMAN!
@@ -7,7 +7,8 @@ Thy Dungeonman implemented with ncurses. (Therefore, Linux only.)  Play the orig
 
 This is a command-line game.
 
-  make for regular version.
-  make nosound if you just have ncurses.
+  -```make``` for regular version.
+  
+  -```make nosound``` if you just have ncurses.
 
-You probably already have ncurses, but you need to install sfml though.
+If you're on Linux, you probably already have ncurses, but you most likely need to install csfml though.
