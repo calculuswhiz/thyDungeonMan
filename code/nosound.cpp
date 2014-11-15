@@ -155,7 +155,7 @@ int prompt(char * buf)
 {
   // LINES: = maxY, COLS = maxX
   mvprintw(LINES/3, 0, "What wouldst thou deau?\n");
-  printw("(\"quit\" or \"exit\" also valid.)\n> ");
+  printw("(\"(q)uit\" or \"exit\" also valid.)\n> ");
   getstr(buf);
   toUpper(buf, strlen(buf));
   move(0,0);
@@ -166,9 +166,9 @@ int prompt(char * buf)
 void toUpper(char * buf, int size)
 {
   int i=0;
-  for( ; i<size; i++)
+  for( ; i<size && i<256; i++)
     {
-      if( 'a'<=buf[i] and buf[i]<='z' )
+      if( 'a'<=buf[i] && buf[i]<='z' )
 	buf[i]-=32;
     }
 }
@@ -232,7 +232,7 @@ void process(char * buf)
     clear();
     mvprintw(0,0,"Thou aren'est thirsty, last time thou checked.\n");
   }
-  else if (!cmd.compare("QUIT") || !cmd.compare("EXIT")){
+  else if (!cmd.compare("QUIT") || !cmd.compare("EXIT") || !cmd.compare("Q")){
     endwin();
     exit(-1);  // Hahahaha!
   }
