@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdio>
 #include <cstdlib>
+#include <unistd.h>
 #include <SFML/Audio.hpp>
 
 #define DELAYTIME 0x7ffffff
@@ -39,7 +40,7 @@ int rope = 0;
 int dead = 0;
 int trinket = 0;
 
-int main()
+int main(int argc, char * argv[])
 {
   // Init:
   char promptBuf[255];
@@ -47,6 +48,25 @@ int main()
   int cmdsize=0;
   int xpos =0, ypos = 0;
 
+  // Get exe path to read music file.
+  string soundPath;
+  char buff[1024];
+  ssize_t len = readlink("/proc/self/exe", buff, sizeof(buff)-1);
+
+  if (len != -1){
+    buff[len] = '\0';
+    soundPath = string(buff);
+  }
+  else {
+    cout << "Error" << endl;
+    return -1;
+  }
+  
+  int found = soundPath.find_last_of("/");
+  
+  soundPath = soundPath.substr(0,found) + string("/thydungeonman_theme.ogg");
+
+  // Set up ncurses:
   initscr();
 
   if(has_colors() == TRUE){
@@ -56,18 +76,14 @@ int main()
   }
 
   curs_set(0);
-
+  
   // Pre-game:    
   cbreak();
   
   sf::Music music;
   int erc;
-  if(erc = !music.openFromFile("../thydungeonman_theme.ogg")){
-    if(erc = !music.openFromFile("./thydungeonman_theme.ogg")){
-      printw("Failed to load music.\n");
-    }
-    else
-      music.play();
+  if(erc = !music.openFromFile(soundPath.c_str())){
+    printw("Failed to load music. %s\n", soundPath.c_str());
   }
   else
     music.play();
