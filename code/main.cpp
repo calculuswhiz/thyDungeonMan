@@ -62,8 +62,13 @@ int main()
   
   sf::Music music;
   int erc;
-  if(erc = !music.openFromFile("../thydungeonman_theme.ogg"))
-    printw("Failed to load music.\n");
+  if(erc = !music.openFromFile("../thydungeonman_theme.ogg")){
+    if(erc = !music.openFromFile("./thydungeonman_theme.ogg")){
+      printw("Failed to load music.\n");
+    }
+    else
+      music.play();
+  }
   else
     music.play();
 
