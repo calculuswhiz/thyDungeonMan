@@ -179,7 +179,7 @@ int prompt(char * buf)
 {
   // LINES: = maxY, COLS = maxX
   mvprintw(LINES/3, 0, "What wouldst thou deau?\n");
-  printw("(\"(q)uit\" or \"exit\" also valid.)\n> ");
+  printw("(\"(q)uit\" or \"exit\" also valid. \"score\" to view score.)\n> ");
   getstr(buf);
   toUpper(buf, strlen(buf));
   move(0,0);
@@ -258,6 +258,10 @@ void process(char * buf)
   else if (!cmd.compare("QUIT") || !cmd.compare("EXIT") || !cmd.compare("Q")){
     endwin();
     exit(-1);  // Hahahaha!
+  }
+  else if ( !cmd.compare("SCORE") ){
+    clear();
+    mvprintw(0,0,"Current score: %d", score);
   }
   else{
     mvprintw(0,0,"That does not computeth. Type HELP is thou needs of it.\n");
